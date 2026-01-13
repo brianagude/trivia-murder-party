@@ -19,24 +19,29 @@ const status = document.querySelector('#status')
 const controls = document.querySelector('#controls')
 const controlsP2 = document.querySelector('#controls-p2')
 
-const selectedAnswers = [0, 0]
-let answersArray;
-
-let gameStarted = false
+const gameState = {
+    selectedAnswers: [0, 0],
+    answersArray: null,
+    started: false,
+}
 
 function setQuestion(){
-    answersArray = [triviaQuestions[0].correct_answer, ...triviaQuestions[0].incorrect_answers]
+    gameState.answersArray = [triviaQuestions[0].correct_answer, ...triviaQuestions[0].incorrect_answers]
 
     question.textContent = triviaQuestions[0].question
-    answers.innerHTML = answersArray.map((answer)=>(
-        `<div>${answer}</div>`
+    answers.innerHTML = gameState.answersArray.map((answer)=>(
+        `<div>
+           <span id="p1-dot"></span>
+           <span id="p2-dot"></span>
+           ${answer}
+        </div>`
     )).join('')
 }
 
 function update() {
-    if (!gameStarted) {
+    if (!gameState.started) {
         if (SYSTEM.ONE_PLAYER || SYSTEM.TWO_PLAYER) {
-            gameStarted = true
+            gameState.started = true
             setQuestion()
 
             let statuses = document.querySelectorAll("#status")
@@ -47,23 +52,23 @@ function update() {
     } else {
         // Player One
         if (PLAYER_1.DPAD.up && !PLAYER_1.LAST_FRAME.DPAD.up) {
-            selectedAnswers[0]--
+            gameState.selectedAnswers[0]--
 
-            if (selectedAnswers[0] < 0){
-                selectedAnswers[0] = answersArray.length - 1
+            if (gameState.selectedAnswers[0] < 0){
+                gameState.selectedAnswers[0] = gameState.answersArray.length - 1
             }
 
-            console.log('player 1 chioce:', selectedAnswers[0])
+            console.log('player 1 chioce:', gameState.selectedAnswers[0])
         }
         
         if (PLAYER_1.DPAD.down && !PLAYER_1.LAST_FRAME.DPAD.down) {
-            selectedAnswers[0]++
+            gameState.selectedAnswers[0]++
 
-            if (selectedAnswers[0] > answersArray.length - 1){
-                selectedAnswers[0] = 0
+            if (gameState.selectedAnswers[0] > gameState.answersArray.length - 1){
+                gameState.selectedAnswers[0] = 0
             }
 
-            console.log('player 1 chioce:', selectedAnswers[0])
+            console.log('player 1 chioce:', gameState.selectedAnswers[0])
         }
 
         // input memory
