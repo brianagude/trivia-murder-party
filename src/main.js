@@ -4,15 +4,17 @@ import triviaQuestions from "./data/trivia.json";
 
 const app = document.querySelector("#app");
 app.innerHTML = `
-  <h1>Trivia Murder Party</h1>
-  <p id="status">Press 1P START</p>
-  <p id="status">Press 2P START</p>
+  <div id='welcome-screen'>
+    <h1>Trivia Murder Party</h1>
+    <p id="status">Press 1P START</p>
+    <p id="status">Press 2P START</p>
+  </div>
 
-  <div id="controls"></div>
-  <div id="controls-p2"></div>
-
-  <div id="question"></div>
-  <div id="answers"></div>
+  <div hidden id='in-game-screen'>
+    <div id="question-timer">10</div>
+    <div id="question"></div>
+    <div id="answers"></div>
+  </div>
 `;
 
 const status = document.querySelector("#status");
@@ -23,6 +25,13 @@ const gameState = {
 	selectedAnswers: [0, 0],
 	answersArray: null,
 	started: false,
+
+    interval: null,
+    secondsRemaining: 10,
+    tickSecond() {
+        this.secondsRemaining--;
+        console.log(`changed secondsRemaining to ${this.secondsRemaining}`)
+    }
 };
 
 function setQuestion() {
@@ -49,10 +58,12 @@ function update() {
 			gameState.started = true;
 			setQuestion();
 
-			const statuses = document.querySelectorAll("#status");
-			for (const statusTag of statuses) {
-				statusTag.hidden = true;
-			}
+            gameState.interval = setInterval(() => gameState.tickSecond(), 1000)
+
+			const welcomeScreen = document.getElementById("welcome-screen");
+            welcomeScreen.hidden = true;
+			const inGameScreen = document.getElementById("in-game-screen");
+            inGameScreen.hidden = false;
 		}
 	} else {
         const currentAnswers = document.querySelectorAll(".answer");
@@ -64,6 +75,11 @@ function update() {
 		// Player One
         playerInput(PLAYER_1, 0)
         playerInput(PLAYER_2, 1)
+
+        let questionTimer = document.getElementById("question-timer");
+        console.log(`gameState.secondsRemaining: ${gameState.secondsRemaining}`)
+        questionTimer.innerHtml = gameState.secondsRemaining.toString();
+        console.log(`questionTimer: ${questionTimer.innerHTML}`)
 
 		// input memory
 		PLAYER_1.LAST_FRAME.DPAD = structuredClone(PLAYER_1.DPAD);
