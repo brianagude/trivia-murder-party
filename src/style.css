@@ -55,3 +55,10 @@ button:hover {
     background-color: blue;
   }
 }
+
+.p2-selected {
+  span#p2-dot {
+    display: inline-block !important;
+    background-color: red;
+  }
+}

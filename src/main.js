@@ -34,7 +34,7 @@ function setQuestion() {
 	question.textContent = triviaQuestions[0].question;
 	answers.innerHTML = gameState.answersArray
 		.map(
-			(answer) => `<div class="answer p1-selected p2-selected">
+			(answer, idx) => `<div class="answer" id="answer-${idx}">
            <span id="p1-dot"></span>
            <span id="p2-dot"></span>
            ${answer}
@@ -57,8 +57,8 @@ function update() {
 	} else {
         const currentAnswers = document.querySelectorAll(".answer");
         currentAnswers.forEach((answer)=>{
-            answer.classList.remove('.p1-selected')
-            answer.classList.remove('.p2-selected')
+            answer.classList.remove('p1-selected')
+            answer.classList.remove('p2-selected')
         })
 
 		// Player One
@@ -79,6 +79,11 @@ function update() {
 
 			console.log("player 1 chioce:", gameState.selectedAnswers[0]);
 		}
+
+        console.log(`#answer-${gameState.selectedAnswers[0]}`)
+
+        document.getElementById(`answer-${gameState.selectedAnswers[0]}`)
+            .classList.add("p1-selected");
 
 		// input memory
 		PLAYER_1.LAST_FRAME.DPAD = structuredClone(PLAYER_1.DPAD);
