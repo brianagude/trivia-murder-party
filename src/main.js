@@ -28,11 +28,27 @@ const gameState = {
 
     interval: null,
     secondsRemaining: 10,
-    tickSecond() {
-        this.secondsRemaining--;
-        console.log(`changed secondsRemaining to ${this.secondsRemaining}`)
-    }
 };
+
+let countdown;
+const gameTimer = document.getElementById('question-timer');
+
+function startCountdown() {
+    clearInterval(countdown); 
+    gameState.secondsRemaining = 10;
+    gameTimer.textContent = gameState.secondsRemaining;
+
+    countdown = setInterval(() => {
+        gameState.secondsRemaining--;
+        gameTimer.textContent = gameState.secondsRemaining;
+
+        if (gameState.secondsRemaining <= 0) {
+            clearInterval(countdown);
+            gameTimer.textContent = "Time's up!";
+        }
+    }, 1000);
+}
+
 
 function setQuestion() {
 	gameState.answersArray = [
@@ -57,8 +73,9 @@ function update() {
 		if (SYSTEM.ONE_PLAYER || SYSTEM.TWO_PLAYER) {
 			gameState.started = true;
 			setQuestion();
+            startCountdown();
 
-            gameState.interval = setInterval(() => gameState.tickSecond(), 1000)
+            // gameState.interval = setInterval(() => gameState.tickSecond(), 1000)
 
 			const welcomeScreen = document.getElementById("welcome-screen");
             welcomeScreen.hidden = true;
@@ -76,10 +93,10 @@ function update() {
         playerInput(PLAYER_1, 0)
         playerInput(PLAYER_2, 1)
 
-        let questionTimer = document.getElementById("question-timer");
-        console.log(`gameState.secondsRemaining: ${gameState.secondsRemaining}`)
-        questionTimer.innerHtml = gameState.secondsRemaining.toString();
-        console.log(`questionTimer: ${questionTimer.innerHTML}`)
+        // let questionTimer = document.getElementById("question-timer");
+        // console.log(`gameState.secondsRemaining: ${gameState.secondsRemaining}`)
+        // questionTimer.innerHtml = gameState.secondsRemaining.toString();
+        // console.log(`questionTimer: ${questionTimer.innerHTML}`)
 
 		// input memory
 		PLAYER_1.LAST_FRAME.DPAD = structuredClone(PLAYER_1.DPAD);
