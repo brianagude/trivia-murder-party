@@ -23,11 +23,13 @@ const controlsP2 = document.querySelector("#controls-p2");
 
 const gameState = {
 	selectedAnswers: [0, 0],
+    correctAnswer: '',
 	answersArray: null,
 	started: false,
 
     interval: null,
     secondsRemaining: 10,
+    
 };
 
 let countdown;
@@ -45,8 +47,15 @@ function startCountdown() {
         if (gameState.secondsRemaining <= 0) {
             clearInterval(countdown);
             gameTimer.textContent = "Time's up!";
+            checkScore()
         }
     }, 1000);
+}
+
+function checkScore(){
+ console.log('answers array: ', gameState.answersArray)
+ console.log('selected answers array: ', gameState.selectedAnswers)
+ console.log('correct answer: ', gameState.correctAnswer)
 }
 
 
@@ -55,6 +64,8 @@ function setQuestion() {
 		triviaQuestions[0].correct_answer,
 		...triviaQuestions[0].incorrect_answers,
 	];
+
+    gameState.correctAnswer = triviaQuestions[0].correct_answer;
 
 	question.textContent = triviaQuestions[0].question;
 	answers.innerHTML = gameState.answersArray
@@ -75,8 +86,6 @@ function update() {
 			setQuestion();
             startCountdown();
 
-            // gameState.interval = setInterval(() => gameState.tickSecond(), 1000)
-
 			const welcomeScreen = document.getElementById("welcome-screen");
             welcomeScreen.hidden = true;
 			const inGameScreen = document.getElementById("in-game-screen");
@@ -92,11 +101,6 @@ function update() {
 		// Player One
         playerInput(PLAYER_1, 0)
         playerInput(PLAYER_2, 1)
-
-        // let questionTimer = document.getElementById("question-timer");
-        // console.log(`gameState.secondsRemaining: ${gameState.secondsRemaining}`)
-        // questionTimer.innerHtml = gameState.secondsRemaining.toString();
-        // console.log(`questionTimer: ${questionTimer.innerHTML}`)
 
 		// input memory
 		PLAYER_1.LAST_FRAME.DPAD = structuredClone(PLAYER_1.DPAD);
