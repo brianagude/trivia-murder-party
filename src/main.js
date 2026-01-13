@@ -37,29 +37,9 @@ function update() {
     if (!gameStarted) {
         if (SYSTEM.ONE_PLAYER || SYSTEM.TWO_PLAYER) {
             gameStarted = true
-            status.textContent = 'Game Started!'
             setQuestion()
         }
     } else {
-        const inputs = []
-        if (PLAYER_1.DPAD.up) inputs.push('↑')
-        if (PLAYER_1.DPAD.down) inputs.push('↓')
-        if (PLAYER_1.DPAD.left) inputs.push('←')
-        if (PLAYER_1.DPAD.right) inputs.push('→')
-        if (PLAYER_1.A) inputs.push('A')
-        if (PLAYER_1.B) inputs.push('B')
-
-        const inputsP2 = []
-        if (PLAYER_2.DPAD.up) inputsP2.push('↑')
-        if (PLAYER_2.DPAD.down) inputsP2.push('↓')
-        if (PLAYER_2.DPAD.left) inputsP2.push('←')
-        if (PLAYER_2.DPAD.right) inputsP2.push('→')
-        if (PLAYER_2.A) inputsP2.push('A')
-        if (PLAYER_2.B) inputsP2.push('B')
-
-        controls.textContent = inputs.length > 0 ? inputs.join(' ') : '-'
-        controlsP2.textContent = inputsP2.length > 0 ? inputsP2.join(' ') : '-'
-
         // Player One
         if (PLAYER_1.DPAD.up) { 
             selectedAnswers[0]--
