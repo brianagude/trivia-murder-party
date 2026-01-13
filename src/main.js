@@ -62,28 +62,8 @@ function update() {
         })
 
 		// Player One
-		if (PLAYER_1.DPAD.up && !PLAYER_1.LAST_FRAME.DPAD.up) {
-			gameState.selectedAnswers[0]--;
-
-			if (gameState.selectedAnswers[0] < 0) {
-				gameState.selectedAnswers[0] = gameState.answersArray.length - 1;
-			}
-		}
-
-		if (PLAYER_1.DPAD.down && !PLAYER_1.LAST_FRAME.DPAD.down) {
-			gameState.selectedAnswers[0]++;
-
-			if (gameState.selectedAnswers[0] > gameState.answersArray.length - 1) {
-				gameState.selectedAnswers[0] = 0;
-			}
-
-			console.log("player 1 chioce:", gameState.selectedAnswers[0]);
-		}
-
-        console.log(`#answer-${gameState.selectedAnswers[0]}`)
-
-        document.getElementById(`answer-${gameState.selectedAnswers[0]}`)
-            .classList.add("p1-selected");
+        playerInput(PLAYER_1, 0)
+        playerInput(PLAYER_2, 1)
 
 		// input memory
 		PLAYER_1.LAST_FRAME.DPAD = structuredClone(PLAYER_1.DPAD);
@@ -93,8 +73,29 @@ function update() {
 	requestAnimationFrame(update);
 }
 
+function playerInput(player, playerIndex) {
+    if (player.DPAD.up && !player.LAST_FRAME.DPAD.up) {
+        gameState.selectedAnswers[playerIndex]--;
+
+        if (gameState.selectedAnswers[playerIndex] < 0) {
+            gameState.selectedAnswers[playerIndex] = gameState.answersArray.length - 1;
+        }
+    }
+
+    if (player.DPAD.down && !player.LAST_FRAME.DPAD.down) {
+        gameState.selectedAnswers[playerIndex]++;
+
+        if (gameState.selectedAnswers[playerIndex] > gameState.answersArray.length - 1) {
+            gameState.selectedAnswers[playerIndex] = 0;
+        }
+    }
+
+    document.getElementById(`answer-${gameState.selectedAnswers[playerIndex]}`)
+        .classList.add(`p${playerIndex + 1}-selected`);
+}
+
 PLAYER_1.LAST_FRAME = {};
-PLAYER_1.LAST_FRAME.DPAD = {};
+PLAYER_1.LAST_FRAME.DPAD = {} ;
 PLAYER_2.LAST_FRAME = {};
 PLAYER_2.LAST_FRAME.DPAD = {};
 update();
