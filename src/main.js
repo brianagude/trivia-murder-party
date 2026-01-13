@@ -55,6 +55,12 @@ function update() {
 			}
 		}
 	} else {
+        const currentAnswers = document.querySelectorAll(".answer");
+        currentAnswers.forEach((answer)=>{
+            answer.classList.remove('.p1-selected')
+            answer.classList.remove('.p2-selected')
+        })
+
 		// Player One
 		if (PLAYER_1.DPAD.up && !PLAYER_1.LAST_FRAME.DPAD.up) {
 			gameState.selectedAnswers[0]--;
@@ -62,8 +68,6 @@ function update() {
 			if (gameState.selectedAnswers[0] < 0) {
 				gameState.selectedAnswers[0] = gameState.answersArray.length - 1;
 			}
-
-			console.log("player 1 chioce:", gameState.selectedAnswers[0]);
 		}
 
 		if (PLAYER_1.DPAD.down && !PLAYER_1.LAST_FRAME.DPAD.down) {
