@@ -22,7 +22,10 @@ const controls = document.querySelector("#controls");
 const controlsP2 = document.querySelector("#controls-p2");
 
 const gameState = {
+    // the indexes of the players' currently selected answers, by player index
 	selectedAnswers: [0, 0],
+    // the two players' scores, by player index
+	playerScores: [0, 0],
     correctAnswer: '',
 	answersArray: null,
 	started: false,
@@ -46,16 +49,27 @@ function startCountdown() {
 
         if (gameState.secondsRemaining <= 0) {
             clearInterval(countdown);
-            gameTimer.textContent = "Time's up!";
             checkScore()
+
+            let p1 = gameState.playerScores[0]
+            let p2 = gameState.playerScores[1]
+            gameTimer.textContent = `Time's up! P1: ${p1}, P2: ${p2}`;
+
         }
+
     }, 1000);
 }
 
-function checkScore(){
- console.log('answers array: ', gameState.answersArray)
- console.log('selected answers array: ', gameState.selectedAnswers)
- console.log('correct answer: ', gameState.correctAnswer)
+function checkScore() {
+    let correctAnswer = gameState.correctAnswer
+
+    for (let playerId = 0; playerId < gameState.selectedAnswers.length; playerId++) {
+        let playerAnswer = gameState.answersArray[gameState.selectedAnswers[playerId]];
+        let playerCorrect = playerAnswer === correctAnswer
+        if (playerCorrect) {
+            gameState.playerScores[playerId]++
+        }
+    }
 }
 
 
