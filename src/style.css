@@ -4,7 +4,8 @@
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   width: 336px;
   height: 262px;
   overflow: hidden;
@@ -39,4 +40,25 @@ button {
 
 button:hover {
   background-color: #5a5a7a;
+}
+
+.answer span {
+  display: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 100%;
+}
+
+.p1-selected {
+  span#p1-dot {
+    display: inline-block !important;
+    background-color: blue;
+  }
+}
+
+.p2-selected {
+  span#p2-dot {
+    display: inline-block !important;
+    background-color: red;
+  }
 }
