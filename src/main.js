@@ -38,10 +38,15 @@ function update() {
         if (SYSTEM.ONE_PLAYER || SYSTEM.TWO_PLAYER) {
             gameStarted = true
             setQuestion()
+
+            let statuses = document.querySelectorAll("#status")
+            for (let statusTag of statuses) {
+                statusTag.hidden = true
+            }
         }
     } else {
         // Player One
-        if (PLAYER_1.DPAD.up) { 
+        if (PLAYER_1.DPAD.up && !PLAYER_1.LAST_FRAME.DPAD.up) {
             selectedAnswers[0]--
 
             if (selectedAnswers[0] < 0){
@@ -51,7 +56,7 @@ function update() {
             console.log('player 1 chioce:', selectedAnswers[0])
         }
         
-        if (PLAYER_1.DPAD.down) { 
+        if (PLAYER_1.DPAD.down && !PLAYER_1.LAST_FRAME.DPAD.down) {
             selectedAnswers[0]++
 
             if (selectedAnswers[0] > answersArray.length - 1){
@@ -60,9 +65,17 @@ function update() {
 
             console.log('player 1 chioce:', selectedAnswers[0])
         }
+
+        // input memory
+        PLAYER_1.LAST_FRAME.DPAD = structuredClone(PLAYER_1.DPAD)
+        PLAYER_2.LAST_FRAME.DPAD = structuredClone(PLAYER_2.DPAD)
     }
 
     requestAnimationFrame(update)
 }
 
+PLAYER_1.LAST_FRAME = {};
+PLAYER_1.LAST_FRAME.DPAD = {};
+PLAYER_2.LAST_FRAME = {};
+PLAYER_2.LAST_FRAME.DPAD = {};
 update()
