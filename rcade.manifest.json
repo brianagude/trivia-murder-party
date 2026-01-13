@@ -1,0 +1,18 @@
+{
+  "$schema": "https://rcade.dev/manifest.schema.json",
+  "name": "trivia-murder-party",
+  "display_name": "Trivia Murder Party",
+  "description": "trivia-murder-party",
+  "visibility": "public",
+  "authors": [
+    {
+      "display_name": "briana dan joshua"
+    }
+  ],
+  "dependencies": [
+    {
+      "name": "@rcade/input-classic",
+      "version": "1.0.0"
+    }
+  ]
+}
